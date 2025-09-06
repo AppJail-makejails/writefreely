@@ -2,11 +2,18 @@ INCLUDE options/options.makejail
 
 ARG writefreely_tag=13.5
 ARG writefreely_ajspec=gh+AppJail-makejails/writefreely
+ARG writefreely_config=files/config.ini
 
 FROM --entrypoint "${writefreely_ajspec}" writefreely:${writefreely_tag}
 
+CMD mkdir -p /data
+CMD chown writefreely:writefreely /data
+
+COPY ${writefreely_config} /usr/local/www/writefreely/config.ini
+
 COPY scripts
 RUN /scripts/configure.sh
+RUN /scripts/init.sh
 CMD rm -rf /scripts
 
 SYSRC writefreely_enable=YES
