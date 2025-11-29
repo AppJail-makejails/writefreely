@@ -1,16 +1,17 @@
 tags+: 13.5
 13.5.arch: amd64
 13.5.name: "writefreely"
-13.5.timestamp.amd64: 1762996593
-13.5.sum.amd64: ccb0f2fc7e912c91af24d816bb7291a6f02d989e74df8ad6af385de519fe5607
-13.5.size.amd64: 43886553
+13.5.timestamp.amd64: 1764447245
+13.5.sum.amd64: 68822540494fcdaff23c5c8e197eabf4d1da52e42fb431d1e8a8a198b696aba6
+13.5.size.amd64: 44401454
 13.5.source.amd64: "https://images.all101bsd.download/writefreely/13.5-amd64-image.appjail"
 13.5.source.amd64+: "http://appjail.hpc.at/writefreely/13.5-amd64-image.appjail"
 tags+: 14.3
 14.3.arch: amd64
 14.3.name: "writefreely"
-14.3.timestamp.amd64: 1762996684
-14.3.sum.amd64: 64bbe038d7133d7a52ebb5fc8747eb678ca7d5feb75020bf9189ca8014c0d6f9
-14.3.size.amd64: 43684056
+14.3.timestamp.amd64: 1764447373
+14.3.sum.amd64: bf55b16a858bfe8e4eb3d71ed9ef457738294871eeaa0355357198de2b0beb29
+14.3.size.amd64: 44286529
 14.3.source.amd64: "https://images.all101bsd.download/writefreely/14.3-amd64-image.appjail"
 14.3.source.amd64+: "http://appjail.hpc.at/writefreely/14.3-amd64-image.appjail"
+maintenance: "This image is uploading, please wait a moment and try again. If you are importing this image using a Makejail that has the '--<name>_ajspec' argument, you can use the 'reproduce' method to use 'appjail-reproduce'. See 'appjail-image(5)' for details."
