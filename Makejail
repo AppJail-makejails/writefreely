@@ -1,6 +1,6 @@
 INCLUDE options/options.makejail
 
-ARG writefreely_tag=13.5
+ARG writefreely_tag=14.3
 ARG writefreely_ajspec=gh+AppJail-makejails/writefreely
 ARG writefreely_config=files/config.ini
 
