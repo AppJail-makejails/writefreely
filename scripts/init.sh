@@ -9,6 +9,9 @@ for d in keys pages static templates; do
     fi
 done
 
+find /data -user writefreely -exec chown -h noroot {} + || exit $?
+find /data -group writefreely -exec chown -h :noroot {} + || exit $?
+
 if [ "${WRITEFREELY__DATABASE__TYPE}" = "sqlite3" ]; then
     if [ -s "${WRITEFREELY__DATABASE__FILENAME}" ]; then
         info "Migrating database"

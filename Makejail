@@ -1,13 +1,16 @@
-INCLUDE options/options.makejail
-
-ARG writefreely_tag=14.3
-ARG writefreely_ajspec=gh+AppJail-makejails/writefreely
+ARG writefreely_from=ghcr.io/appjail-makejails/writefreely
+ARG writefreely_tag=latest
 ARG writefreely_config=files/config.ini
 
-FROM --entrypoint "${writefreely_ajspec}" writefreely:${writefreely_tag}
+OPTION start
+OPTION overwrite=force
+OPTION from=${writefreely_from}:${writefreely_tag}
+OPTION volume=writefreely-data mountpoint:/data owner:${puid} group:${pgid}
+
+INCLUDE gh+AppJail-makejails/user-mapping
 
 CMD mkdir -p /data
-CMD chown writefreely:writefreely /data
+CMD chown noroot:noroot /data
 
 COPY ${writefreely_config} /usr/local/www/writefreely/config.ini
 
@@ -17,4 +20,5 @@ RUN /scripts/init.sh
 CMD rm -rf /scripts
 
 SYSRC writefreely_enable=YES
+SYSRC writefreely_user=noroot
 SERVICE writefreely start

@@ -9,7 +9,7 @@ WRITEFREELY__SERVER__BIND="${WRITEFREELY__SERVER__BIND:-0.0.0.0}"; export WRITEF
 
 writefreely_func()
 {
-    su -m writefreely -c "writefreely -c ${WRITEFREELY_CONFIG} $*"
+    su -m noroot -c "writefreely -c ${WRITEFREELY_CONFIG} $*"
 }
 
 err()

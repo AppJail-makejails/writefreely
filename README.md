@@ -30,8 +30,8 @@ You can configure WriteFreely through environment variables in the build stage o
 ### Arguments
 
 * `writefreely_config` (default: `files/config.ini`): Initial WriteFreely configuration file.
-* `writefreely_ajspec` (default: `gh+AppJail-makejails/writefreely`): Entry point where the `appjail-ajspec(5)` file is located.
-* `writefreely_tag` (default: `14.3`): see [#tags](#tags).
+* `writefreely_from` (default: `ghcr.io/appjail-makejails/writefreely`): Location of OCI image. See also [OCI Configuration](#oci-configuration).
+* `writefreely_tag` (default: `latest`): OCI image tag. See also [OCI Configuration](#oci-configuration).
 
 ### Environment
 
@@ -41,13 +41,23 @@ You can configure WriteFreely through environment variables in the build stage o
 
 ### Volumes
 
-| Name             | Owner | Group | Perm | Type | Mountpoint |
-| ---------------- | ----- | ----- | ---- | ---- | ---------- |
-| writefreely-data | 296   | 296   | -    | -    | /data      |
+| Name             | Owner     | Group     | Perm | Type | Mountpoint |
+| ---------------- | --------- | --------- | ---- | ---- | ---------- |
+| writefreely-data | `${puid}` | `${pgid}` | -    | -    | /data      |
 
-## Tags
+## OCI Configuration
 
-| Tag        | Arch     | Version            | Type   |
-| ---------- | -------- | ------------------ | ------ |
-| `14.3` | `amd64`  | `14.3-RELEASE` | `thin` |
-| `15` | `amd64`  | `15` | `thin` |
+```yaml
+build:
+  variants:
+    - tag: 15.0
+      containerfile: Containerfile.pkg
+      aliases: ["latest"]
+      default: true
+      args:
+        FREEBSD_RELEASE: "15.0"
+```
+
+## Notes
+
+1. This Makejail includes [gh+AppJail-makejails/user-mapping](https://github.com/AppJail-makejails/user-mapping).
