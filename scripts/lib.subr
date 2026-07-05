@@ -1,4 +1,6 @@
-WRITEFREELY_CONFIG="/usr/local/www/writefreely/config.ini"
+. /lib.subr
+
+WRITEFREELY_CONFIG="/data/config.ini"
 WRITEFREELY_USERNAME="${WRITEFREELY_USERNAME:-writefreely}"
 WRITEFREELY_PASSWORD="${WRITEFREELY_PASSWORD:-writefreely}"
 WRITEFREELY_MIGRATE="${WRITEFREELY_MIGRATE:-0}"
@@ -9,15 +11,5 @@ WRITEFREELY__SERVER__BIND="${WRITEFREELY__SERVER__BIND:-0.0.0.0}"; export WRITEF
 
 writefreely_func()
 {
-    su -m noroot -c "writefreely -c ${WRITEFREELY_CONFIG} $*"
-}
-
-err()
-{
-	echo "###> $* <###"
-}
-
-info()
-{
-	echo "======> $* <======"
+    su-exec noroot writefreely -c "${WRITEFREELY_CONFIG}" "$@"
 }

@@ -8,17 +8,20 @@ writefreely.org
 
 ## How to use this Makejail
 
-```sh
-mkdir -p .volumes/writefreely-data
-appjail makejail \
-    -j writefreely \
-    -f gh+AppJail-makejails/writefreely \
+```console
+$ mkdir -p /var/appjail-volumes/writefreely/data
+$ appjail oci run -Pd \
+    -o overwrite=force \
     -o virtualnet=":<random> default" \
     -o nat \
     -o expose=80:8080 \
-    -V WRITEFREELY__APP__SITE_NAME="myblog" \
-    -V WRITEFREELY__APP__HOST="http://your-host-or-ip" \
-    -o fstab="$PWD/.volumes/writefreely-data writefreely-data <volumefs>"
+    -o fstab="/var/appjail-volumes/writefreely/data /data" \
+    -o container="args:--pull" \
+    -e PUID=1000 \
+    -e PGID=1000 \
+    -e WRITEFREELY__APP__SITE_NAME="myblog" \
+    -e WRITEFREELY__APP__HOST="http://writefreely:8080" \
+    ghcr.io/appjail-makejails/writefreely writefreely
 ```
 
 You can configure WriteFreely through environment variables in the build stage of this Makejail by following these rules:
@@ -31,7 +34,6 @@ You can configure WriteFreely through environment variables in the build stage o
 
 * `writefreely_from` (default: `ghcr.io/appjail-makejails/writefreely`): Location of OCI image. See also [OCI Configuration](#oci-configuration).
 * `writefreely_tag` (default: `latest`): OCI image tag. See also [OCI Configuration](#oci-configuration).
-* `writefreely_config` (default: `files/config.ini`): Initial WriteFreely configuration file.
 
 ### Environment (stage: build)
 
@@ -44,7 +46,7 @@ You can configure WriteFreely through environment variables in the build stage o
 
 | Name | Owner | Group | Perm | Type | Mountpoint |
 | --- | --- | --- | --- | --- | --- |
-| writefreely-data | `${puid}` | `${pgid}` | - | - | /data |
+| appjail-263aca83a3-data | `${puid}` | `${pgid}` | - | - | /data |
 
 ## OCI Configuration
 
@@ -57,8 +59,10 @@ build:
       default: true
       args:
         FREEBSD_RELEASE: "15.1"
+        NO_PKGCLEAN: "1"
+      cache_dirs: ["pkgcache0:/var/cache/pkg"]
 ```
 
 ## Notes
 
-1. This Makejail includes [gh+AppJail-makejails/user-mapping](https://github.com/AppJail-makejails/user-mapping).
+1. This image already drops privileges and runs the process as a custom user named `noroot`, whose `UID` and `GID` are specified by the `PUID` or `PGID` environment variables, both of which have a default value of `1000`.
