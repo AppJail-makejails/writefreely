@@ -20,7 +20,7 @@ $ appjail oci run -Pd \
     -e PUID=1000 \
     -e PGID=1000 \
     -e WRITEFREELY__APP__SITE_NAME="myblog" \
-    -e WRITEFREELY__APP__HOST="http://writefreely:8080" \
+    -e WRITEFREELY__APP__HOST="http://your-host-or-ip" \
     ghcr.io/appjail-makejails/writefreely writefreely
 ```
 
