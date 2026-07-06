@@ -35,6 +35,10 @@ You can configure WriteFreely through environment variables in the build stage o
 * `writefreely_from` (default: `ghcr.io/appjail-makejails/writefreely`): Location of OCI image. See also [OCI Configuration](#oci-configuration).
 * `writefreely_tag` (default: `latest`): OCI image tag. See also [OCI Configuration](#oci-configuration).
 
+### Environment (OCI image)
+
+* `PGID` (default: `1000`): Equivalent to `PUID` but for the Process Group ID.
+* `PUID` (default: `1000`): Process User ID for the container's main process, allowing you to match the owner of files written to mounted host volumes to your host system's user. Writable volumes are changed based on this environment variable.
 ### Environment (stage: build)
 
 * `WRITEFREELY_MIGRATE` (default: `0`): Ignored when SQLite is used as database backend. If MySQL/MariaDB is used as database backend and this environment variable is set to `0`, database initialization is performed, as well as the creation of the user (with admin rights) and the creation of encryption and authentication keys, but when this environment variable is set to a number other than `0`, only migration is performed.
@@ -46,7 +50,7 @@ You can configure WriteFreely through environment variables in the build stage o
 
 | Name | Owner | Group | Perm | Type | Mountpoint |
 | --- | --- | --- | --- | --- | --- |
-| appjail-263aca83a3-data | `${puid}` | `${pgid}` | - | - | /data |
+| appjail-263aca83a3-data | `${PUID}` | `${PGID}` | - | - | /data |
 
 ## OCI Configuration
 
@@ -62,7 +66,3 @@ build:
         NO_PKGCLEAN: "1"
       cache_dirs: ["pkgcache0:/var/cache/pkg"]
 ```
-
-## Notes
-
-1. This image already drops privileges and runs the process as a custom user named `noroot`, whose `UID` and `GID` are specified by the `PUID` or `PGID` environment variables, both of which have a default value of `1000`.
